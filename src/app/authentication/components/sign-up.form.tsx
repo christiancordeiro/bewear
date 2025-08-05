@@ -24,7 +24,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth.client";
 
 const formSchema = z
@@ -78,7 +77,7 @@ export default function SignUpForm() {
 
   return (
     <>
-      <Card>
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Criar conta</CardTitle>
           <CardDescription>Crie uma conta para continuar.</CardDescription>

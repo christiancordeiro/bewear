@@ -53,7 +53,7 @@ export default function SignInForm() {
           router.push("/");
         },
         onError: (ctx) => {
-          if(ctx.error.code === "USER_NOT_FOUND") {
+          if (ctx.error.code === "USER_NOT_FOUND") {
             toast.error("Email não encontrado");
             form.setError("email", {
               message: "Email não encontrado",
@@ -73,7 +73,7 @@ export default function SignInForm() {
 
   return (
     <>
-      <Card>
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>Entrar</CardTitle>
           <CardDescription>
@@ -82,7 +82,7 @@ export default function SignInForm() {
         </CardHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <CardContent className="grid gap-6">
+            <CardContent className="grid w-full gap-6">
               <FormField
                 control={form.control}
                 name="email"
