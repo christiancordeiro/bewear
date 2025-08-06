@@ -16,12 +16,15 @@ export default function ProductItem({
   product,
   textContainerClassName,
 }: ProductItemProps) {
-  const firtsVariant = product.variants[0];
+  const firstVariant = product.variants[0];
   return (
-    <Link href="/" className="flex flex-col gap-4">
+    <Link
+      href={`/product-variant/${firstVariant.slug}`}
+      className="flex flex-col gap-4"
+    >
       <Image
-        src={firtsVariant.imageUrl}
-        alt={firtsVariant.name}
+        src={firstVariant.imageUrl}
+        alt={firstVariant.name}
         width={0}
         height={0}
         sizes="180vw"
@@ -38,7 +41,7 @@ export default function ProductItem({
           {product.description}
         </p>
         <div className="truncate text-sm font-semibold">
-          {formatCentsToBRL(firtsVariant.priceInCents)}
+          {formatCentsToBRL(firstVariant.priceInCents)}
         </div>
       </div>
     </Link>
