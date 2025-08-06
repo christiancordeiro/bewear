@@ -14,6 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
+import Cart from "./cart";
 
 export default function Header() {
   const { data: session } = authClient.useSession();
@@ -24,7 +25,7 @@ export default function Header() {
         <Image src="/logo.svg" alt="BEWEAR LOGO" width={100} height={26.14} />
       </Link>
 
-      <div className="flex items-center">
+      <div className="flex items-center gap-3">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="icon">
@@ -79,6 +80,7 @@ export default function Header() {
             </div>
           </SheetContent>
         </Sheet>
+        <Cart />
       </div>
     </header>
   );
