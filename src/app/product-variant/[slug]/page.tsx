@@ -5,13 +5,12 @@ import { notFound } from "next/navigation";
 import Footer from "@/components/commom/footer";
 import Header from "@/components/commom/header";
 import ProductList from "@/components/commom/product.list";
-import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { productTable, productVariantTable } from "@/db/schema";
 import { formatCentsToBRL } from "@/helpers/money";
 
-import QuantitySelector from "../components/quantity-selector";
 import VariantSelector from "../components/variant-selector";
+import ProductActions from "./components/product-actions";
 
 interface ProductVariantPageProps {
   params: { slug: string };
@@ -76,18 +75,7 @@ export default async function ProductVariantPage({
           </h3>
         </div>
 
-        <div className="px-5">
-          <QuantitySelector />
-        </div>
-
-        <div className="flex flex-col space-y-4 px-5">
-          <Button className="rouded-full" size="lg" variant="outline">
-            Adicionar à sacola
-          </Button>
-          <Button className="rounded-full" size="lg">
-            Comprar agora
-          </Button>
-        </div>
+        <ProductActions productVariantId={productVariant.id} />
 
         <div className="px-5">
           <p className="text-shadow-amber-600">
