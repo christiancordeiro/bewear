@@ -1,11 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { ShoppingBasketIcon } from "lucide-react";
-import Image from "next/image";
 
 import { getCart } from "@/actions/get-cart";
 
 import { Button } from "../ui/button";
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../ui/sheet";
+import CartItem from "./cart-item";
 
 export default function Cart() {
   const { data: cart, isPending: cartIsLoading } = useQuery({
@@ -20,21 +26,23 @@ export default function Cart() {
         </Button>
       </SheetTrigger>
       <SheetContent>
-        <SheetTitle>Carrinho</SheetTitle>
-        {cartIsLoading && <div>Carrinho está carregando...</div>}
-        {cart?.items.map((item) => (
-          <div key={item.id}>
-            <Image
-              src={item.productVariant.imageUrl}
-              width={100}
-              height={100}
-              alt={item.productVariant.product.name}
+        <SheetHeader>
+          <SheetTitle>Carrinho</SheetTitle>
+        </SheetHeader>
+        <div className="space-y-4 px-5">
+          {cartIsLoading && <div>Carrinho está carregando...</div>}
+          {cart?.items.map((item) => (
+            <CartItem
+              key={item.id}
+              id={item.id}
+              productName={item.productVariant.product.name}
+              productVariantName={item.productVariant.name}
+              productVariantImageUrl={item.productVariant.imageUrl}
+              productVariantPriceInCents={item.productVariant.priceInCents}
+              quantity={item.quantity}
             />
-            <div>
-              <h3>{item.productVariant.product.name}</h3>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </SheetContent>
     </Sheet>
   );
