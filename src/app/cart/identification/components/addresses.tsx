@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { PatternFormat } from "react-number-format";
+import { toast } from "sonner";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -19,25 +20,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useCreateShippingAddress } from "@/hooks/mutation/use-create-shipping-address";
 
 const addressFormSchema = z.object({
-  email: z.email(),
-  fullName: z.string().min(1),
-  cpf: z.string().min(14),
-  phone: z.string().min(1),
-  zipCode: z.string().min(1),
-  address: z.string().min(1),
-  number: z.string().min(1),
+  email: z.email("E-mail inválido"),
+  fullName: z.string().min(1, "Nome completo é obrigatório"),
+  cpf: z.string().min(14, "CPF inválido"),
+  phone: z.string().min(15, "Celular inválido"),
+  zipCode: z.string().min(9, "CEP inválido"),
+  address: z.string().min(1, "Endereço é obrigatório"),
+  number: z.string().min(1, "Número é obrigatório"),
   complement: z.string().optional(),
-  district: z.string().min(1),
-  city: z.string().min(1),
-  state: z.string().min(1),
+  neighborhood: z.string().min(1, "Bairro é obrigatório"),
+  city: z.string().min(1, "Cidade é obrigatória"),
+  state: z.string().min(1, "Estado é obrigatório"),
 });
 
 type AddressFormValues = z.infer<typeof addressFormSchema>;
 
 export default function Addresses() {
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+  const createShippingAddressMutation = useCreateShippingAddress();
 
   const form = useForm<AddressFormValues>({
     resolver: zodResolver(addressFormSchema),
@@ -50,14 +53,23 @@ export default function Addresses() {
       address: "",
       number: "",
       complement: "",
-      district: "",
+      neighborhood: "",
       city: "",
       state: "",
     },
-    mode: "onChange",
   });
 
-  function onSubmit(data: AddressFormValues) {}
+  const onSubmit = async (values: AddressFormValues) => {
+    try {
+      await createShippingAddressMutation.mutateAsync(values);
+      toast.success("Endereço criado com sucesso!");
+      form.reset();
+      setSelectedAddress(null);
+    } catch (error) {
+      toast.error("Erro ao criar endereço. Tente novamente.");
+      console.error(error);
+    }
+  };
 
   return (
     <Card>
@@ -220,7 +232,7 @@ export default function Addresses() {
               </div>
               <FormField
                 control={form.control}
-                name="district"
+                name="neighborhood"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Bairro</FormLabel>
@@ -259,8 +271,14 @@ export default function Addresses() {
                   )}
                 />
               </div>
-              <Button type="submit" className="w-full">
-                Salvar endereço
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={createShippingAddressMutation.isPending}
+              >
+                {createShippingAddressMutation.isPending
+                  ? "Salvando..."
+                  : "Salvar endereço"}
               </Button>
             </form>
           </Form>

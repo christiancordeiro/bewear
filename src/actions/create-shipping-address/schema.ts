@@ -1,17 +1,19 @@
 import { z } from "zod";
 
-export const createAddressSchema = z.object({
-  email: z.string().email(),
-  fullName: z.string().min(1),
-  cpf: z.string().min(14),
-  phone: z.string().min(1),
-  zipCode: z.string().min(1),
-  address: z.string().min(1),
-  number: z.string().min(1),
+export const createShippingAddressSchema = z.object({
+  email: z.email("E-mail inválido"),
+  fullName: z.string().min(1, "Nome completo é obrigatório"),
+  cpf: z.string().min(14, "CPF inválido"),
+  phone: z.string().min(15, "Celular inválido"),
+  zipCode: z.string().min(9, "CEP inválido"),
+  address: z.string().min(1, "Endereço é obrigatório"),
+  number: z.string().min(1, "Número é obrigatório"),
   complement: z.string().optional(),
-  district: z.string().min(1),
-  city: z.string().min(1),
-  state: z.string().min(1),
+  neighborhood: z.string().min(1, "Bairro é obrigatório"),
+  city: z.string().min(1, "Cidade é obrigatória"),
+  state: z.string().min(1, "Estado é obrigatório"),
 });
 
-export type CreateAddressInput = z.infer<typeof createAddressSchema>;
+export type CreateShippingAddressSchema = z.infer<
+  typeof createShippingAddressSchema
+>;
