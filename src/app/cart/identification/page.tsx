@@ -49,7 +49,7 @@ export default async function IndetificationPage() {
 
   return (
     <>
-      <div className="space-y-12">
+      <div>
         <Header />
         <div className="space-y-4 px-5">
           <Addresses
@@ -70,7 +70,9 @@ export default async function IndetificationPage() {
             }))}
           />
         </div>
-        <Footer />
+        <div className="mt-12">
+          <Footer />
+        </div>
       </div>
     </>
   );
