@@ -239,7 +239,6 @@ export const orderTable = pgTable("order", {
   country: text().notNull(),
   phone: text().notNull(),
   email: text().notNull(),
-  cpfOrCnpj: text().notNull(),
   totalPriceInCents: integer("total_price_in_cents").notNull(),
   status: orderStatus().notNull().default("pending"),
   createdAt: timestamp("created_at").notNull().defaultNow(),

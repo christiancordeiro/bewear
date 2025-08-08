@@ -10,6 +10,7 @@ import { auth } from "@/lib/auth";
 
 import CartSummary from "../components/cart-summary";
 import { formatAddress } from "../helpers/address";
+import FinishOrderButton from "./finish-order-button";
 
 export default async function ConfirmationPage() {
   const session = await auth.api.getSession({
@@ -58,9 +59,7 @@ export default async function ConfirmationPage() {
                 <p className="text-sm">{formatAddress(cart.shippingAddress)}</p>
               </CardContent>
             </Card>
-            <Button className="w-full rounded-full" size="lg">
-              Finalizar compra
-            </Button>
+            <FinishOrderButton />
           </CardContent>
         </Card>
         <CartSummary
